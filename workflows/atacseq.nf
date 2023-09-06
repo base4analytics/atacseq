@@ -94,6 +94,7 @@ include { PRESEQ_LCEXTRAP as MERGED_LIBRARY_PRESEQ_LCEXTRAP                     
 include { DEEPTOOLS_PLOTFINGERPRINT as MERGED_LIBRARY_DEEPTOOLS_PLOTFINGERPRINT         } from '../modules/nf-core/deeptools/plotfingerprint/main'
 include { ATAQV_ATAQV as MERGED_LIBRARY_ATAQV_ATAQV                                     } from '../modules/nf-core/ataqv/ataqv/main'
 include { ATAQV_MKARV as MERGED_LIBRARY_ATAQV_MKARV                                     } from '../modules/nf-core/ataqv/mkarv/main'
+include { SEQTK_SAMPLE as FASTQ_SEQTK_SAMPLE                                            } from '../modules/nf-core/seqtk/sample/main'
 
 include { PICARD_MERGESAMFILES as PICARD_MERGESAMFILES_LIBRARY   } from '../modules/nf-core/picard/mergesamfiles/main'
 include { PICARD_MERGESAMFILES as PICARD_MERGESAMFILES_REPLICATE } from '../modules/nf-core/picard/mergesamfiles/main'
@@ -143,11 +144,23 @@ workflow ATACSEQ {
     // See the documentation https://nextflow-io.github.io/nf-validation/samplesheets/fromSamplesheet/
     // ! There is currently no tooling to help you write a sample sheet schema
 
+    // Downsample
+    reads_in = INPUT_CHECK.out.reads
+    if (params.downsample_nreads > 0)
+    {
+        FASTQ_SEQTK_SAMPLE (
+            reads_in
+                .combine(Channel.value(params.downsample_nreads))
+        )
+        reads_in = FASTQ_SEQTK_SAMPLE.out.reads
+    }
+
+
     //
     // SUBWORKFLOW: Read QC and trim adapters
     //
     FASTQ_FASTQC_UMITOOLS_TRIMGALORE (
-        INPUT_CHECK.out.reads,
+        reads_in,
         params.skip_fastqc || params.skip_qc,
         false,
         false,

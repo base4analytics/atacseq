@@ -209,6 +209,19 @@
                 }
             }
         },
+        "downsampling_options": {
+            "title": "Downsampling options",
+            "type": "object",
+            "description": "Downsample reads at the start of the workflow",
+            "default": "",
+            "properties": {
+                "downsample_nreads": {
+                    "type": "integer",
+                    "default": -1,
+                    "description": "Randomly downsamples n reads from each sample. To skip, set downsample_nreads<=0"
+                }
+            }
+        },
         "adapter_trimming_options": {
             "title": "Adapter trimming options",
             "type": "object",
@@ -678,6 +691,9 @@
         },
         {
             "$ref": "#/definitions/reference_genome_options"
+        },
+        {
+            "$ref": "#/definitions/downsampling_options"
         },
         {
             "$ref": "#/definitions/adapter_trimming_options"

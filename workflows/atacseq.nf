@@ -153,8 +153,8 @@ workflow ATACSEQ {
                 .combine(Channel.value(params.downsample_nreads))
         )
         reads_in = FASTQ_SEQTK_SAMPLE.out.reads
+        ch_versions = ch_versions.mix(FASTQ_SEQTK_SAMPLE.out.versions)
     }
-
 
     //
     // SUBWORKFLOW: Read QC and trim adapters

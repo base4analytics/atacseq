@@ -95,9 +95,11 @@ include { DEEPTOOLS_PLOTFINGERPRINT as MERGED_LIBRARY_DEEPTOOLS_PLOTFINGERPRINT 
 include { ATAQV_ATAQV as MERGED_LIBRARY_ATAQV_ATAQV                                     } from '../modules/nf-core/ataqv/ataqv/main'
 include { ATAQV_MKARV as MERGED_LIBRARY_ATAQV_MKARV                                     } from '../modules/nf-core/ataqv/mkarv/main'
 include { SEQTK_SAMPLE as FASTQ_SEQTK_SAMPLE                                            } from '../modules/nf-core/seqtk/sample/main'
+include { FASTP as FASTQ_FASTP                                                          } from '../modules/nf-core/fastp/main'
 
 include { PICARD_MERGESAMFILES as PICARD_MERGESAMFILES_LIBRARY   } from '../modules/nf-core/picard/mergesamfiles/main'
 include { PICARD_MERGESAMFILES as PICARD_MERGESAMFILES_REPLICATE } from '../modules/nf-core/picard/mergesamfiles/main'
+include { PICARD_MERGESAMFILES as PICARD_MERGESAMFILES_CHUNKS } from '../modules/nf-core/picard/mergesamfiles/main'
 
 //
 // SUBWORKFLOW: Consisting entirely of nf-core/modules
@@ -154,6 +156,54 @@ workflow ATACSEQ {
         )
         reads_in = FASTQ_SEQTK_SAMPLE.out.reads
         ch_versions = ch_versions.mix(FASTQ_SEQTK_SAMPLE.out.versions)
+    }
+
+    // Split FASTQ files
+    // Inspired by Sarek
+    if (params.split_fastq > 0) {
+        reads_in.view( {"FASTQ_FASTP in: ${it}" } )
+        FASTQ_FASTP(
+            reads_in,
+            [], // only for adapters
+            0, // save_trimmed_fail,
+            0, // save_merged
+        )
+        ch_versions = ch_versions.mix(FASTQ_FASTP.out.versions)
+
+
+        read_chunks = FASTQ_FASTP.out.reads
+
+        // For some reason, fastp outputs some chunks with zero file length.
+        read_chunks = read_chunks
+            .map { meta, reads ->
+                reads_filtered = reads.findAll{ it.size() > 0 }
+                [ meta, reads_filtered ]
+            }
+
+        // Collate paired reads and calculate size for groupTuple later
+        reads_in = read_chunks.map{ meta, reads ->
+            collate_num = (meta.single_end) ? 1 : 2
+            read_files = reads.sort(false) { a,b -> a.getName().tokenize('.')[0] <=> b.getName().tokenize('.')[0] }.collate(collate_num)
+            [ meta + [ size:read_files.size() ], read_files ]
+        }
+        .transpose()
+
+        // We have to change the "id" feature in the meta data, because filenames
+        // downstream are based on that.
+        reads_in = reads_in.map { meta, reads ->
+            def meta_clone = meta.clone()
+
+            // Filenames are like 0012.XXX, we need to pull out the leading number
+            // and use that as the id.
+            def file1 = reads[0]
+            def chunk_num = file1.getName().tokenize('.')[0]
+            // Now add the chunk_num to the meta_clone.id
+            meta_clone.id = meta_clone.id + "_TT${chunk_num}"
+            [ meta_clone, reads]
+        }
+
+        // The min_trimmed_reads doesn't make sense if we are subsetting
+        //params.min_trimmed_reads = 0
     }
 
     //
@@ -260,6 +310,36 @@ workflow ATACSEQ {
         ch_versions = ch_versions.mix(ALIGN_STAR.out.versions)
     }
 
+    // Adapt merging if we split using fastp
+    if (params.split_fastq > 0) {
+
+        // Grouping the bams from the same samples not to stall the workflow
+        bams_grouped = ch_genome_bam.map{ meta, bam ->
+
+            def meta_clone_a = meta.clone()
+            meta_clone_a.id = meta_clone_a.id - ~/_TT\d+$/
+            meta_clone_a.remove('size')
+
+            // Use groupKey to make sure that the correct group can advance as soon as it is complete
+            // and not stall the workflow until all reads from all channels are mapped
+            [ groupKey( meta_clone_a, (meta.size ?: 1)), bam ]
+        }
+        .groupTuple(by: [0])
+        .map {
+            meta, bams ->
+                // This is vexxing ! --
+                // If we don't get rid of the hidden groupKey, the next groupTuple will not work right
+                // Even "meta.clone()" doesn't seem to get rid of it.  At least that's my theory.  What
+                // I know is that the groupTuple() below would not work if I passed meta.clone() here
+                [ [id:meta.id, single_end:meta.single_end, control:meta.control, read_group:meta.read_group ], bams ]
+        }
+
+        // Merge chunks
+        PICARD_MERGESAMFILES_CHUNKS(bams_grouped)
+        ch_versions = ch_versions.mix(PICARD_MERGESAMFILES_CHUNKS.out.versions.first())
+        ch_genome_bam = PICARD_MERGESAMFILES_CHUNKS.out.bam
+    }
+
     // Create channels: [ meta, [bam] ]
     ch_genome_bam
         .map {
@@ -272,7 +352,7 @@ workflow ATACSEQ {
         .groupTuple(by: [0])
         .map {
             meta, bam ->
-                [ meta, bam.flatten() ]
+                [ meta, bam.flatten() ] // Why is this flatten() here?
         }
         .set { ch_sort_bam }
 

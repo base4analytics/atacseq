@@ -198,8 +198,7 @@
                 "keep_mito": {
                     "type": "boolean",
                     "description": "Reads mapping to mitochondrial contig are not filtered from alignments.",
-                    "fa_icon": "fas fa-cart-arrow-down",
-                    "default": false
+                    "fa_icon": "fas fa-cart-arrow-down"
                 },
                 "ataqv_mito_reference": {
                     "type": "string",
@@ -209,16 +208,21 @@
                 }
             }
         },
-        "downsampling_options": {
-            "title": "Downsampling options",
+        "scatter_gather_and_downsampling_options": {
+            "title": "Scatter gather and Downsampling options",
             "type": "object",
-            "description": "Downsample reads at the start of the workflow",
+            "description": "Performed before trimming and alignment",
             "default": "",
             "properties": {
                 "downsample_nreads": {
                     "type": "integer",
                     "default": -1,
                     "description": "Randomly downsamples n reads from each sample. To skip, set downsample_nreads<=0"
+                },
+                "split_fastq": {
+                    "type": "integer",
+                    "default": 0,
+                    "description": "If n>0, splits original fastq into equal chunks of n reads, for parallelization"
                 }
             }
         },
@@ -304,7 +308,6 @@
                 },
                 "skip_merge_replicates": {
                     "type": "boolean",
-                    "default": false,
                     "description": "Do not perform alignment merging and downstream analysis by merging replicates i.e. only do this by merging resequenced libraries.",
                     "help_text": "An additional series of steps are performed by the pipeline for merging the replicates from the same experimental group. This is primarily to increase the sequencing depth in order to perform downstream analyses such as footprinting. Specifying this parameter means that these steps will not be performed.",
                     "fa_icon": "fas fa-fast-forward"
@@ -467,7 +470,6 @@
                 },
                 "skip_ataqv": {
                     "type": "boolean",
-                    "default": false,
                     "description": "Skip Ataqv.",
                     "fa_icon": "fas fa-fast-forward"
                 }
@@ -691,7 +693,7 @@
             "$ref": "#/definitions/reference_genome_options"
         },
         {
-            "$ref": "#/definitions/downsampling_options"
+            "$ref": "#/definitions/scatter_gather_and_downsampling_options"
         },
         {
             "$ref": "#/definitions/adapter_trimming_options"

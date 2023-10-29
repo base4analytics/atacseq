@@ -1,0 +1,162 @@
+nextflow_pipeline {
+
+    name "Test Workflow main.nf"
+    script "main.nf"
+    config "conf/test_small.config"
+    tag "pipeline"
+    tag "local_executor"
+    tag "short"
+    tag "test_profile"
+
+    test("Short pipeline") {
+
+        when {
+            params {
+                outdir = "$outputDir"
+            }
+        }
+
+        then {
+            // Use assert all so that it doesn't fail one by one but reports all failures
+            assertAll(
+                { assert workflow.success },
+   				// Begin: Template created with createNftestTemplateFromDiff.pl testout_small testout_small2
+				// Only in testout_small/pipeline_info: execution_report_2023-10-29_14-41-51.html
+				// Only in testout_small2/pipeline_info: execution_report_2023-10-29_14-45-33.html
+				// Only in testout_small/pipeline_info: execution_timeline_2023-10-29_14-41-51.html
+				// Only in testout_small2/pipeline_info: execution_timeline_2023-10-29_14-45-33.html
+				// Only in testout_small/pipeline_info: execution_trace_2023-10-29_14-41-51.txt
+				// Only in testout_small2/pipeline_info: execution_trace_2023-10-29_14-45-33.txt
+				// Only in testout_small/pipeline_info: params_2023-10-29_14-43-59.json
+				// Only in testout_small2/pipeline_info: params_2023-10-29_14-47-44.json
+				// Only in testout_small/pipeline_info: pipeline_dag_2023-10-29_14-41-51.html
+				// Only in testout_small2/pipeline_info: pipeline_dag_2023-10-29_14-45-33.html
+				{ assert snapshot(
+					path("$outputDir/bwa/merged_library/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN.sorted.bam"),
+					path("$outputDir/bwa/merged_library/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN.sorted.bam.bai"),
+					path("$outputDir/bwa/merged_library/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN.sorted.bam"),
+					path("$outputDir/bwa/merged_library/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN.sorted.bam.bai"),
+					path("$outputDir/bwa/merged_library/ataqv/broad_peak/html/css/ataqv.css"),
+					path("$outputDir/bwa/merged_library/ataqv/broad_peak/html/css/datatables.buttons.min.css"),
+					path("$outputDir/bwa/merged_library/ataqv/broad_peak/html/css/datatables.fontawesome.css"),
+					path("$outputDir/bwa/merged_library/ataqv/broad_peak/html/css/datatables.min.css"),
+					path("$outputDir/bwa/merged_library/ataqv/broad_peak/html/css/font-awesome.min.css"),
+					path("$outputDir/bwa/merged_library/ataqv/broad_peak/html/css/normalize.css"),
+					path("$outputDir/bwa/merged_library/ataqv/broad_peak/html/fonts/FontAwesome.otf"),
+					path("$outputDir/bwa/merged_library/ataqv/broad_peak/html/fonts/fontawesome-webfont.eot"),
+					path("$outputDir/bwa/merged_library/ataqv/broad_peak/html/fonts/fontawesome-webfont.svg"),
+					path("$outputDir/bwa/merged_library/ataqv/broad_peak/html/fonts/fontawesome-webfont.ttf"),
+					path("$outputDir/bwa/merged_library/ataqv/broad_peak/html/fonts/fontawesome-webfont.woff"),
+					path("$outputDir/bwa/merged_library/ataqv/broad_peak/html/fonts/fontawesome-webfont.woff2"),
+					path("$outputDir/bwa/merged_library/ataqv/broad_peak/html/fonts/sourcesanspro-regular.woff"),
+					path("$outputDir/bwa/merged_library/ataqv/broad_peak/html/fonts/sourcesanspro-regularit.woff"),
+					path("$outputDir/bwa/merged_library/ataqv/broad_peak/html/fonts/sourcesanspro-semibold.woff"),
+					path("$outputDir/bwa/merged_library/ataqv/broad_peak/html/fonts/sourcesanspro-semiboldit.woff"),
+					path("$outputDir/bwa/merged_library/ataqv/broad_peak/html/index.html"),
+					path("$outputDir/bwa/merged_library/ataqv/broad_peak/html/js/ataqv.js"),
+					path("$outputDir/bwa/merged_library/ataqv/broad_peak/html/js/configuration.js"),
+					path("$outputDir/bwa/merged_library/ataqv/broad_peak/html/js/d3.min.js"),
+					path("$outputDir/bwa/merged_library/ataqv/broad_peak/html/js/datatables.min.js"),
+					path("$outputDir/bwa/merged_library/ataqv/broad_peak/html/js/jszip.min.js"),
+					path("$outputDir/bwa/merged_library/bigwig/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN.bigWig"),
+					path("$outputDir/bwa/merged_library/bigwig/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN.bigWig"),
+					path("$outputDir/bwa/merged_library/bigwig/scale/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN.scale_factor.txt"),
+					path("$outputDir/bwa/merged_library/bigwig/scale/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN.scale_factor.txt"),
+					path("$outputDir/bwa/merged_library/macs2/broad_peak/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN_peaks.broadPeak"),
+					path("$outputDir/bwa/merged_library/macs2/broad_peak/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN_peaks.gappedPeak"),
+					path("$outputDir/bwa/merged_library/macs2/broad_peak/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN_peaks.xls"),
+					path("$outputDir/bwa/merged_library/macs2/broad_peak/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN_peaks.broadPeak"),
+					path("$outputDir/bwa/merged_library/macs2/broad_peak/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN_peaks.gappedPeak"),
+					path("$outputDir/bwa/merged_library/macs2/broad_peak/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN_peaks.xls"),
+					path("$outputDir/bwa/merged_library/macs2/broad_peak/consensus/consensus_peaks.mLb.clN.bed"),
+					path("$outputDir/bwa/merged_library/macs2/broad_peak/consensus/consensus_peaks.mLb.clN.boolean.intersect.txt"),
+					path("$outputDir/bwa/merged_library/macs2/broad_peak/consensus/consensus_peaks.mLb.clN.boolean.txt"),
+					path("$outputDir/bwa/merged_library/macs2/broad_peak/consensus/consensus_peaks.mLb.clN.saf"),
+					path("$outputDir/bwa/merged_library/macs2/broad_peak/qc/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN_peaks.FRiP_mqc.tsv"),
+					path("$outputDir/bwa/merged_library/macs2/broad_peak/qc/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN_peaks.count_mqc.tsv"),
+					path("$outputDir/bwa/merged_library/macs2/broad_peak/qc/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN_peaks.FRiP_mqc.tsv"),
+					path("$outputDir/bwa/merged_library/macs2/broad_peak/qc/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN_peaks.count_mqc.tsv"),
+					path("$outputDir/bwa/merged_library/macs2/broad_peak/qc/macs2_annotatePeaks.mLb.clN.summary.txt"),
+					path("$outputDir/bwa/merged_library/macs2/broad_peak/qc/macs2_annotatePeaks.mLb.clN.summary_mqc.tsv"),
+					path("$outputDir/bwa/merged_library/samtools_stats/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN.sorted.bam.flagstat"),
+					path("$outputDir/bwa/merged_library/samtools_stats/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN.sorted.bam.idxstats"),
+					path("$outputDir/bwa/merged_library/samtools_stats/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN.sorted.bam.stats"),
+					path("$outputDir/bwa/merged_library/samtools_stats/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.mkD.sorted.bam.flagstat"),
+					path("$outputDir/bwa/merged_library/samtools_stats/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.mkD.sorted.bam.idxstats"),
+					path("$outputDir/bwa/merged_library/samtools_stats/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.mkD.sorted.bam.stats"),
+					path("$outputDir/bwa/merged_library/samtools_stats/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN.sorted.bam.flagstat"),
+					path("$outputDir/bwa/merged_library/samtools_stats/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN.sorted.bam.idxstats"),
+					path("$outputDir/bwa/merged_library/samtools_stats/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN.sorted.bam.stats"),
+					path("$outputDir/bwa/merged_library/samtools_stats/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.mkD.sorted.bam.flagstat"),
+					path("$outputDir/bwa/merged_library/samtools_stats/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.mkD.sorted.bam.idxstats"),
+					path("$outputDir/bwa/merged_library/samtools_stats/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.mkD.sorted.bam.stats")
+				).match("bwa") },
+				{ assert new File("$outputDir/bwa/merged_library/ataqv/broad_peak/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.ataqv.json").exists() },
+				{ assert new File("$outputDir/bwa/merged_library/ataqv/broad_peak/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.ataqv.json").exists() },
+				{ assert new File("$outputDir/bwa/merged_library/ataqv/broad_peak/html/data/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.json.gz").exists() },
+				{ assert new File("$outputDir/bwa/merged_library/ataqv/broad_peak/html/data/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.json.gz").exists() },
+				{ assert new File("$outputDir/bwa/merged_library/macs2/broad_peak/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN_peaks.annotatePeaks.txt").exists() },
+				{ assert new File("$outputDir/bwa/merged_library/macs2/broad_peak/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN_peaks.annotatePeaks.txt").exists() },
+				{ assert new File("$outputDir/bwa/merged_library/macs2/broad_peak/consensus/consensus_peaks.mLb.clN.annotatePeaks.txt").exists() },
+				{ assert new File("$outputDir/bwa/merged_library/macs2/broad_peak/consensus/consensus_peaks.mLb.clN.boolean.intersect.plot.pdf").exists() },
+				{ assert new File("$outputDir/bwa/merged_library/macs2/broad_peak/consensus/consensus_peaks.mLb.clN.featureCounts.txt").exists() },
+				{ assert new File("$outputDir/bwa/merged_library/macs2/broad_peak/consensus/consensus_peaks.mLb.clN.featureCounts.txt.summary").exists() },
+				{ assert new File("$outputDir/bwa/merged_library/macs2/broad_peak/qc/macs2_annotatePeaks.mLb.clN.plots.pdf").exists() },
+				{ assert new File("$outputDir/bwa/merged_library/macs2/broad_peak/qc/macs2_peak.mLb.clN.plots.pdf").exists() },
+				{ assert new File("$outputDir/bwa/merged_library/macs2/broad_peak/qc/macs2_peak.mLb.clN.summary.txt").exists() },
+				{ assert new File("$outputDir/bwa/merged_library/picard_metrics/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN.CollectMultipleMetrics.alignment_summary_metrics").exists() },
+				{ assert new File("$outputDir/bwa/merged_library/picard_metrics/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN.CollectMultipleMetrics.base_distribution_by_cycle_metrics").exists() },
+				{ assert new File("$outputDir/bwa/merged_library/picard_metrics/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN.CollectMultipleMetrics.insert_size_metrics").exists() },
+				{ assert new File("$outputDir/bwa/merged_library/picard_metrics/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN.CollectMultipleMetrics.quality_by_cycle_metrics").exists() },
+				{ assert new File("$outputDir/bwa/merged_library/picard_metrics/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN.CollectMultipleMetrics.quality_distribution_metrics").exists() },
+				{ assert new File("$outputDir/bwa/merged_library/picard_metrics/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.mkD.sorted.MarkDuplicates.metrics.txt").exists() },
+				{ assert new File("$outputDir/bwa/merged_library/picard_metrics/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN.CollectMultipleMetrics.alignment_summary_metrics").exists() },
+				{ assert new File("$outputDir/bwa/merged_library/picard_metrics/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN.CollectMultipleMetrics.base_distribution_by_cycle_metrics").exists() },
+				{ assert new File("$outputDir/bwa/merged_library/picard_metrics/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN.CollectMultipleMetrics.quality_by_cycle_metrics").exists() },
+				{ assert new File("$outputDir/bwa/merged_library/picard_metrics/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN.CollectMultipleMetrics.quality_distribution_metrics").exists() },
+				{ assert new File("$outputDir/bwa/merged_library/picard_metrics/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.mkD.sorted.MarkDuplicates.metrics.txt").exists() },
+				{ assert new File("$outputDir/bwa/merged_library/picard_metrics/pdf/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN.CollectMultipleMetrics.base_distribution_by_cycle.pdf").exists() },
+				{ assert new File("$outputDir/bwa/merged_library/picard_metrics/pdf/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN.CollectMultipleMetrics.insert_size_histogram.pdf").exists() },
+				{ assert new File("$outputDir/bwa/merged_library/picard_metrics/pdf/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN.CollectMultipleMetrics.quality_by_cycle.pdf").exists() },
+				{ assert new File("$outputDir/bwa/merged_library/picard_metrics/pdf/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN.CollectMultipleMetrics.quality_distribution.pdf").exists() },
+				{ assert new File("$outputDir/bwa/merged_library/picard_metrics/pdf/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN.CollectMultipleMetrics.read_length_histogram.pdf").exists() },
+				{ assert new File("$outputDir/bwa/merged_library/picard_metrics/pdf/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN.CollectMultipleMetrics.base_distribution_by_cycle.pdf").exists() },
+				{ assert new File("$outputDir/bwa/merged_library/picard_metrics/pdf/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN.CollectMultipleMetrics.quality_by_cycle.pdf").exists() },
+				{ assert new File("$outputDir/bwa/merged_library/picard_metrics/pdf/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN.CollectMultipleMetrics.quality_distribution.pdf").exists() },
+				{ assert new File("$outputDir/bwa/merged_library/picard_metrics/pdf/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN.CollectMultipleMetrics.read_length_histogram.pdf").exists() },
+				{ assert snapshot(
+					path("$outputDir/fastqc/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_1_fastqc.html"),
+					path("$outputDir/fastqc/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_2_fastqc.html"),
+					path("$outputDir/fastqc/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1_T1_fastqc.html")
+				).match("fastqc") },
+				{ assert new File("$outputDir/fastqc/zips/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_1_fastqc.zip").exists() },
+				{ assert new File("$outputDir/fastqc/zips/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_2_fastqc.zip").exists() },
+				{ assert new File("$outputDir/fastqc/zips/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1_T1_fastqc.zip").exists() },
+				{ assert snapshot(
+					path("$outputDir/genome/genome.fa"),
+					path("$outputDir/genome/genome.fa.fai")
+				).match("genome") },
+				{ assert snapshot(
+					path("$outputDir/igv/broad_peak/igv_files.txt"),
+					path("$outputDir/igv/broad_peak/igv_session.xml")
+				).match("igv") },
+				{ assert snapshot(
+					path("$outputDir/pipeline_info/samplesheet.valid.csv")
+				).match("pipeline_info") },
+				{ assert snapshot(
+					path("$outputDir/trimgalore/fastqc/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_1_val_1_fastqc.html"),
+					path("$outputDir/trimgalore/fastqc/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_2_val_2_fastqc.html"),
+					path("$outputDir/trimgalore/fastqc/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1_T1_trimmed_fastqc.html")
+				).match("trimgalore") },
+				{ assert new File("$outputDir/trimgalore/fastqc/zips/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_1_val_1_fastqc.zip").exists() },
+				{ assert new File("$outputDir/trimgalore/fastqc/zips/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_2_val_2_fastqc.zip").exists() },
+				{ assert new File("$outputDir/trimgalore/fastqc/zips/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1_T1_trimmed_fastqc.zip").exists() },
+				{ assert new File("$outputDir/trimgalore/logs/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_1.fastq.gz_trimming_report.txt").exists() },
+				{ assert new File("$outputDir/trimgalore/logs/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_2.fastq.gz_trimming_report.txt").exists() },
+				{ assert new File("$outputDir/trimgalore/logs/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1_T1.fastq.gz_trimming_report.txt").exists() },
+				// End: Template created with createNftestTemplateFromDiff.pl testout_small testout_small2
+
+            )
+        }
+    }
+}

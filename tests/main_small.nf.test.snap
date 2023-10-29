@@ -1,0 +1,101 @@
+{
+    "genome": {
+        "content": [
+            "genome.fa:md5,4bad9f4b18056156a81f7f952abbe125",
+            "genome.fa.fai:md5,6f4c0ce5258e6948135ad006e1f9ee1b"
+        ],
+        "timestamp": "2023-10-29T15:09:43+0000"
+    },
+    "trimgalore": {
+        "content": [
+            "OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_1_val_1_fastqc.html:md5,4f7a95a0c887e5f08cb9874c0553cf85",
+            "OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_2_val_2_fastqc.html:md5,edd5d97a229ba42d7570e075dce191ce",
+            "OSMOTIC_STRESS_T100_SE_REP1_T1_REP1_T1_trimmed_fastqc.html:md5,50da19e342338da75aaaebd1c1b05e66"
+        ],
+        "timestamp": "2023-10-29T15:09:43+0000"
+    },
+    "fastqc": {
+        "content": [
+            "OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_1_fastqc.html:md5,4b63254335252ceda5645425ba8b8251",
+            "OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_2_fastqc.html:md5,f82f53358a25e6b0fba3e4fb853724ec",
+            "OSMOTIC_STRESS_T100_SE_REP1_T1_REP1_T1_fastqc.html:md5,8a762ea779a752db20e94a3c35f8ae7d"
+        ],
+        "timestamp": "2023-10-29T15:09:43+0000"
+    },
+    "igv": {
+        "content": [
+            "igv_files.txt:md5,31b2edee1fd7426251412a29b46f43fc",
+            "igv_session.xml:md5,2b2ede5774160fa7004e6dc4c1bec428"
+        ],
+        "timestamp": "2023-10-29T15:09:43+0000"
+    },
+    "bwa": {
+        "content": [
+            "OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN.sorted.bam:md5,b74e04efaacbe3fc34b2c63dabbe2986",
+            "OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN.sorted.bam.bai:md5,2eb2012187ff77be6ee4a5b5356376bd",
+            "OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN.sorted.bam:md5,7476440697707296e296697548660a34",
+            "OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN.sorted.bam.bai:md5,2168d4360a810c0e30b0f0264c204797",
+            "ataqv.css:md5,7bb9e18974018dd29bdc12a46a6d6d65",
+            "datatables.buttons.min.css:md5,675306abc9d3239314f2c66c0e22ef7a",
+            "datatables.fontawesome.css:md5,716d7a3edd2c75e712b1ffe26f12a861",
+            "datatables.min.css:md5,00ef3e39d9302618395ab189ec8bcd9f",
+            "font-awesome.min.css:md5,89916fa773ce96569604016ef25cab50",
+            "normalize.css:md5,40d20cc85100840580df4346bb99d7ed",
+            "FontAwesome.otf:md5,9ccfa32dd4cd1b8e83f68899d85bd5e6",
+            "fontawesome-webfont.eot:md5,404a525502f8e5ba7e93b9f02d9e83a9",
+            "fontawesome-webfont.svg:md5,bae4a87c1e5dff40baa3f49d52f5347a",
+            "fontawesome-webfont.ttf:md5,fb650aaf10736ffb9c4173079616bf01",
+            "fontawesome-webfont.woff:md5,891e3f340c1126b4c7c142e5f6e86816",
+            "fontawesome-webfont.woff2:md5,926c93d201fe51c8f351e858468980c3",
+            "sourcesanspro-regular.woff:md5,f7bd788f18b8c4bb93dd37d140348e1e",
+            "sourcesanspro-regularit.woff:md5,c3638b17f4fd76dae12fe2ae14571e57",
+            "sourcesanspro-semibold.woff:md5,e7fc8925d9364e9d177d9e1d08bb1855",
+            "sourcesanspro-semiboldit.woff:md5,f1d255aa459786dfc6aa2e488ac01245",
+            "index.html:md5,bf7747be761e56ad7c54c842ac88461a",
+            "ataqv.js:md5,feb291b7839e9e43ed304565e3a605d9",
+            "configuration.js:md5,6cc4068a5701576cfd2a376160e7094b",
+            "d3.min.js:md5,db69fb2626a71a286ee772d673138aca",
+            "datatables.min.js:md5,e369b872620dadb05e4eb555b81f9112",
+            "jszip.min.js:md5,09e492cb492ffa75484bbe10f1f721d1",
+            "OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN.bigWig:md5,3c93dca3cb26a19e02dbd13ea8f572c9",
+            "OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN.bigWig:md5,8a642e36c4c2491c00e3972cf50b720d",
+            "OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN.scale_factor.txt:md5,c798296b7d89d9c7ea8ee9dc4ac29766",
+            "OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN.scale_factor.txt:md5,a8cf8e58f7aa04a461ed21a2d504da9a",
+            "OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN_peaks.broadPeak:md5,75e9cde04ad6806826b54e0f4e7636aa",
+            "OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN_peaks.gappedPeak:md5,f1b376298d61fc02e43fae1fa2e20537",
+            "OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN_peaks.xls:md5,417b3b370bfc836ecdfced3c96877c7a",
+            "OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN_peaks.broadPeak:md5,aafc37a0bbeb3a8d4243f459289d4f83",
+            "OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN_peaks.gappedPeak:md5,a5630ba0c2f11e6f385dfb4fbfd61ca2",
+            "OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN_peaks.xls:md5,2f766e8ef2d061953f3694cd63a1dba3",
+            "consensus_peaks.mLb.clN.bed:md5,fe3babe0b787d101a523094998a6df54",
+            "consensus_peaks.mLb.clN.boolean.intersect.txt:md5,3329fb2ba4e08b0a75bc30cd70ba315f",
+            "consensus_peaks.mLb.clN.boolean.txt:md5,bfa1e33c22cf4304a91d34fa195efc75",
+            "consensus_peaks.mLb.clN.saf:md5,b0e887921011e590eb6fd7f90f555fbb",
+            "OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN_peaks.FRiP_mqc.tsv:md5,eb72da034ce09c28bc839ca0bc2e56d0",
+            "OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN_peaks.count_mqc.tsv:md5,cbfbe064241788d65ed0ee8a6192c1fd",
+            "OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN_peaks.FRiP_mqc.tsv:md5,bfa55feef870bc4ea52c45ec341aca68",
+            "OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN_peaks.count_mqc.tsv:md5,d5f9fbf37d991bd016b66cb1726915ae",
+            "macs2_annotatePeaks.mLb.clN.summary.txt:md5,fb6be85317560fd5172ab804d94774ab",
+            "macs2_annotatePeaks.mLb.clN.summary_mqc.tsv:md5,205019f23a205525702d3de93ebf988d",
+            "OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN.sorted.bam.flagstat:md5,bf55dd1cb2d7f8902ae4019732d501a1",
+            "OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN.sorted.bam.idxstats:md5,7c65fec9a46b906d7680ad380b155052",
+            "OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.clN.sorted.bam.stats:md5,b404ebab4746f78265b0bfd8c58edfa2",
+            "OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.mkD.sorted.bam.flagstat:md5,ec71b6f4c8f79727da7a6fec399f18da",
+            "OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.mkD.sorted.bam.idxstats:md5,a703355e2b015d3b4bbb89647ec1933a",
+            "OSMOTIC_STRESS_T0_PE_REP1_T1_REP1.mLb.mkD.sorted.bam.stats:md5,0508c7b81740dd8f20fdf87e13f15f0f",
+            "OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN.sorted.bam.flagstat:md5,92a22707c01cff6e47d0d828ae5ae0eb",
+            "OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN.sorted.bam.idxstats:md5,84ce7d18caa07ff634faa4b838b7002a",
+            "OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN.sorted.bam.stats:md5,5375c5cb3e9d60f7063347efa7d7d629",
+            "OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.mkD.sorted.bam.flagstat:md5,a272f757e27b1e413ef989eb197f1563",
+            "OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.mkD.sorted.bam.idxstats:md5,9d9f8d032f5207c333191a89d1fedb99",
+            "OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.mkD.sorted.bam.stats:md5,f87ba380864862730704d8baa9ffa202"
+        ],
+        "timestamp": "2023-10-29T15:09:43+0000"
+    },
+    "pipeline_info": {
+        "content": [
+            "samplesheet.valid.csv:md5,c4ab55fd2c51996ce254b111ce64c8b5"
+        ],
+        "timestamp": "2023-10-29T15:09:43+0000"
+    }
+}

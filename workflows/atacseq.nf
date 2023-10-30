@@ -63,6 +63,7 @@ ch_multiqc_merged_replicate_deseq2_clustering_header = file("$projectDir/assets/
 include { IGV     } from '../modules/local/igv'
 include { MULTIQC } from '../modules/local/multiqc'
 
+
 //
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
 //
@@ -73,6 +74,7 @@ include { BIGWIG_PLOT_DEEPTOOLS as MERGED_LIBRARY_BIGWIG_PLOT_DEEPTOOLS       } 
 include { BAM_FILTER_BAMTOOLS as MERGED_LIBRARY_FILTER_BAM                    } from '../subworkflows/local/bam_filter_bamtools'
 include { BAM_BEDGRAPH_BIGWIG_BEDTOOLS_UCSC as MERGED_LIBRARY_BAM_TO_BIGWIG   } from '../subworkflows/local/bam_bedgraph_bigwig_bedtools_ucsc'
 include { BAM_BEDGRAPH_BIGWIG_BEDTOOLS_UCSC as MERGED_REPLICATE_BAM_TO_BIGWIG } from '../subworkflows/local/bam_bedgraph_bigwig_bedtools_ucsc'
+include { BAM_SORT_STATS_SAMTOOLS as BAM_SORT_STATS_SAMTOOLS_CHUNKMERGE       } from '../subworkflows/nf-core/bam_sort_stats_samtools/main'
 
 include { BAM_PEAKS_CALL_QC_ANNOTATE_MACS2_HOMER as MERGED_LIBRARY_CALL_ANNOTATE_PEAKS   } from '../subworkflows/local/bam_peaks_call_qc_annotate_macs2_homer.nf'
 include { BAM_PEAKS_CALL_QC_ANNOTATE_MACS2_HOMER as MERGED_REPLICATE_CALL_ANNOTATE_PEAKS } from '../subworkflows/local/bam_peaks_call_qc_annotate_macs2_homer.nf'
@@ -338,6 +340,20 @@ workflow ATACSEQ {
         PICARD_MERGESAMFILES_CHUNKS(bams_grouped)
         ch_versions = ch_versions.mix(PICARD_MERGESAMFILES_CHUNKS.out.versions.first())
         ch_genome_bam = PICARD_MERGESAMFILES_CHUNKS.out.bam
+
+        // We also have to re-run samtools stats on the merge. It's unfortunate
+        // the way stats is included in the alignment subsworkflows above
+        // and can not be easily extracted.
+        BAM_SORT_STATS_SAMTOOLS_CHUNKMERGE(ch_genome_bam,
+            PREPARE_GENOME.out.fasta
+                .map {
+                    [ [:], it ]
+                })
+        ch_samtools_stats    = BAM_SORT_STATS_SAMTOOLS_CHUNKMERGE.out.stats
+        ch_samtools_flagstat = BAM_SORT_STATS_SAMTOOLS_CHUNKMERGE.out.flagstat
+        ch_samtools_idxstats = BAM_SORT_STATS_SAMTOOLS_CHUNKMERGE.out.idxstats
+
+        ch_genome_bam        = BAM_SORT_STATS_SAMTOOLS_CHUNKMERGE.out.bam // TODO Is there any problem with this reassignment?
     }
 
     // Create channels: [ meta, [bam] ]

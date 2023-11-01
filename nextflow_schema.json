@@ -224,7 +224,8 @@
                     "default": 10000000,
                     "description": "If n>0, splits original fastq into equal chunks of n reads, for parallelization"
                 }
-            }
+            },
+            "fa_icon": "fas fa-microchip"
         },
         "adapter_trimming_options": {
             "title": "Adapter trimming options",
@@ -343,6 +344,19 @@
                     "fa_icon": "fas fa-cog"
                 }
             }
+        },
+        "fragmentomics": {
+            "title": "Fragmentomics",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "stratify_ranges": {
+                    "type": "string",
+                    "description": "one or more ranges separated by commas \"35-80,2000-\". Only peak passed on to peak calling and processes downstream of peak calling"
+                }
+            },
+            "fa_icon": "fas fa-dna"
         },
         "peak_calling_options": {
             "title": "Peak calling options",
@@ -700,6 +714,9 @@
         },
         {
             "$ref": "#/definitions/alignment_options"
+        },
+        {
+            "$ref": "#/definitions/fragmentomics"
         },
         {
             "$ref": "#/definitions/peak_calling_options"

@@ -56,12 +56,21 @@ ch_multiqc_merged_replicate_deseq2_clustering_header = file("$projectDir/assets/
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    IMPORT NF-CORE MODULES/SUBWORKFLOWS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*/
+
+
+/*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     IMPORT LOCAL MODULES/SUBWORKFLOWS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
 include { IGV     } from '../modules/local/igv'
 include { MULTIQC } from '../modules/local/multiqc'
+
+include { STRATIFY_BAM_BY_FRAGLEN } from '../modules/local/stratifybambyfraglen.nf'
 
 
 //
@@ -356,6 +365,10 @@ workflow ATACSEQ {
         ch_genome_bam        = BAM_SORT_STATS_SAMTOOLS_CHUNKMERGE.out.bam // TODO Is there any problem with this reassignment?
     }
 
+    //
+    // Merge libraries (specified by trailing _T1, etc.)
+    //
+
     // Create channels: [ meta, [bam] ]
     ch_genome_bam
         .map {
@@ -552,6 +565,74 @@ workflow ATACSEQ {
             .set { ch_bam_library }
     }
 
+    // ***************************
+    // Stratify by fragment length
+    // ***************************
+    // Create versions of ch_bam_library
+    // which include length-stratified versions.
+    //    // Remember that the "meta" attribute has to be
+    //    // identical between dupsbam_wstrat_ch and dupsbai_wstrat_ch.
+    //    //
+    // The reason I make new channels is because some
+    // downstream processes will not want to use stratified versions
+    // even if they are available.
+    //
+    // TODO: We can really only do this with paired end. We can
+    // not know fragment length with single end.
+    if (params.stratify_ranges)
+    {
+        if (params.with_control) {
+            // Not implemented yet
+            error "Stratification not implemented for control samples"
+        }
+
+
+        // First, add some extra fields to the base metadata
+        // TODO maybe put this in a function in a library file
+        newch_bam_bai =
+        ch_bam_bai
+        .view { "INPUT TO MAP bam_bai_ch: " + it }
+        .map { meta, bam, bai ->
+            def meta_new = meta + ["stratcopy":"true"] // This is suggested by Ben Sherman to make a copy
+            meta_new["fraglen_range"] = "NA"
+            meta_new["sample_id"] = meta["id"]
+            tuple(meta_new, bam, bai)
+        }
+
+
+        newch_bam_bai.collect().view { "INPUT TO STRATIFY bam_bai_ch: " + it }
+
+        // When I introduced this, I started having a problem
+        // of downstream tasks getting occasionally dropped
+        // (usually 1 or 2 out of 500).  It turns out it was
+        // due to an outOfMemory error in java deep within
+        // the Azure SDK. I increased memory with:
+        // NXF_OPTS=-Xms12G -Xmx12G
+        // It seems ok for the moment on current datasets, but I
+        // logged an issue with Seqera.
+        //
+        // I do not know if it affects other executors
+
+        range_ch = Channel.of( params.stratify_ranges.split(",") )
+        STRATIFY_BAM_BY_FRAGLEN (
+            newch_bam_bai.combine(range_ch)
+        )
+
+        ch_bam_bai = newch_bam_bai
+            .mix(STRATIFY_BAM_BY_FRAGLEN.out.bam_ch
+                    .join(STRATIFY_BAM_BY_FRAGLEN.out.bai_ch, by: [0], remainder: true) )
+
+        ch_bam_library = ch_bam_bai
+            .map { meta, bam, bai ->
+                // Needs to match format [meta, bam1, bam2]
+                [ meta, bam, [] ]
+            }
+
+        ch_versions = ch_versions.mix(STRATIFY_BAM_BY_FRAGLEN.out.versions.first())
+
+        ch_bam_library.view { "OUTPUT FROM STRATIFY bam_bai_ch: " + it }
+    }
+
     //
     // SUBWORKFLOW: Call peaks with MACS2, annotate with HOMER and perform downstream QC
     //
@@ -596,20 +677,23 @@ workflow ATACSEQ {
         ch_versions = ch_versions.mix(MERGED_LIBRARY_CONSENSUS_PEAKS.out.versions)
     }
 
+    // TODO I don't understand why this was going back to the pre-filtered BAM
+    // I changed it back to the filtered BAM (which has our stratifications)
     // Create channels: [ meta, bam, bai, peak_file ]
-    MERGED_LIBRARY_MARKDUPLICATES_PICARD
-        .out
-        .bam
-        .join(MERGED_LIBRARY_MARKDUPLICATES_PICARD.out.bai, by: [0], remainder: true)
-        .join(MERGED_LIBRARY_MARKDUPLICATES_PICARD.out.csi, by: [0], remainder: true)
-        .map {
-            meta, bam, bai, csi ->
-                if (bai) {
-                    [ meta, bam, bai ]
-                } else {
-                    [ meta, bam, csi ]
-                }
-        }
+    // MERGED_LIBRARY_MARKDUPLICATES_PICARD
+    //     .out
+    //     .bam
+    //     .join(MERGED_LIBRARY_MARKDUPLICATES_PICARD.out.bai, by: [0], remainder: true)
+    //     .join(MERGED_LIBRARY_MARKDUPLICATES_PICARD.out.csi, by: [0], remainder: true)
+    //     .map {
+    //         meta, bam, bai, csi ->
+    //             if (bai) {
+    //                 [ meta, bam, bai ]
+    //             } else {
+    //                 [ meta, bam, csi ]
+    //             }
+    //     }
+    ch_bam_bai
         .join(MERGED_LIBRARY_CALL_ANNOTATE_PEAKS.out.peaks, by: [0])
         .set { ch_bam_peaks }
 
@@ -636,6 +720,7 @@ workflow ATACSEQ {
     //
     // Merged replicate analysis
     //
+    // TODO fragment length stratification not implemented
     ch_markduplicates_replicate_stats                   = Channel.empty()
     ch_markduplicates_replicate_flagstat                = Channel.empty()
     ch_markduplicates_replicate_idxstats                = Channel.empty()

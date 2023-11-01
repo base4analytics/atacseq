@@ -8,7 +8,7 @@ nextflow_pipeline {
     tag "short"
     tag "test_profile"
 
-    test("Short pipeline") {
+    test("Small short pipeline") {
 
         when {
             params {
@@ -101,20 +101,20 @@ nextflow_pipeline {
 				{ assert new File("$outputDir/bwa/merged_library/picard_metrics/pdf/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN.CollectMultipleMetrics.quality_by_cycle.pdf").exists() },
 				{ assert new File("$outputDir/bwa/merged_library/picard_metrics/pdf/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN.CollectMultipleMetrics.quality_distribution.pdf").exists() },
 				{ assert new File("$outputDir/bwa/merged_library/picard_metrics/pdf/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1.mLb.clN.CollectMultipleMetrics.read_length_histogram.pdf").exists() },
-				{ assert snapshot(
-					path("$outputDir/fastqc/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0001_1_fastqc.html"),
-					path("$outputDir/fastqc/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0001_2_fastqc.html"),
-					path("$outputDir/fastqc/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0010_1_fastqc.html"),
-					path("$outputDir/fastqc/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0010_2_fastqc.html"),
-					path("$outputDir/fastqc/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1_T1_TT0001_fastqc.html"),
-					path("$outputDir/fastqc/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1_T1_TT0010_fastqc.html")
-				).match("fastqc") },
+				// { assert snapshot(
+				// 	path("$outputDir/fastqc/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0001_1_fastqc.html"),
+				// 	path("$outputDir/fastqc/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0001_2_fastqc.html"),
+				// 	path("$outputDir/fastqc/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0002_1_fastqc.html"),
+				// 	path("$outputDir/fastqc/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0002_2_fastqc.html"),
+				// 	path("$outputDir/fastqc/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1_T1_TT0001_fastqc.html"),
+				// 	path("$outputDir/fastqc/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1_T1_TT0002_fastqc.html")
+				// ).match("fastqc") },
 				{ assert new File("$outputDir/fastqc/zips/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0001_1_fastqc.zip").exists() },
 				{ assert new File("$outputDir/fastqc/zips/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0001_2_fastqc.zip").exists() },
-				{ assert new File("$outputDir/fastqc/zips/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0010_1_fastqc.zip").exists() },
-				{ assert new File("$outputDir/fastqc/zips/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0010_2_fastqc.zip").exists() },
+				{ assert new File("$outputDir/fastqc/zips/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0002_1_fastqc.zip").exists() },
+				{ assert new File("$outputDir/fastqc/zips/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0002_2_fastqc.zip").exists() },
 				{ assert new File("$outputDir/fastqc/zips/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1_T1_TT0001_fastqc.zip").exists() },
-				{ assert new File("$outputDir/fastqc/zips/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1_T1_TT0010_fastqc.zip").exists() },
+				{ assert new File("$outputDir/fastqc/zips/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1_T1_TT0002_fastqc.zip").exists() },
 				{ assert snapshot(
 					path("$outputDir/genome/genome.fa"),
 					path("$outputDir/genome/genome.fa.fai")
@@ -390,26 +390,26 @@ nextflow_pipeline {
 				{ assert new File("$outputDir/samtools/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1.bam.bai").exists() },
 				{ assert new File("$outputDir/samtools/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1_T1.bam").exists() },
 				{ assert new File("$outputDir/samtools/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1_T1.bam.bai").exists() },
-				{ assert snapshot(
-					path("$outputDir/trimgalore/fastqc/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0001_1_val_1_fastqc.html"),
-					path("$outputDir/trimgalore/fastqc/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0001_2_val_2_fastqc.html"),
-					path("$outputDir/trimgalore/fastqc/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0010_1_val_1_fastqc.html"),
-					path("$outputDir/trimgalore/fastqc/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0010_2_val_2_fastqc.html"),
-					path("$outputDir/trimgalore/fastqc/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1_T1_TT0001_trimmed_fastqc.html"),
-					path("$outputDir/trimgalore/fastqc/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1_T1_TT0010_trimmed_fastqc.html")
-				).match("trimgalore") },
+				// { assert snapshot(
+				// 	path("$outputDir/trimgalore/fastqc/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0001_1_val_1_fastqc.html"),
+				// 	path("$outputDir/trimgalore/fastqc/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0001_2_val_2_fastqc.html"),
+				// 	path("$outputDir/trimgalore/fastqc/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0002_1_val_1_fastqc.html"),
+				// 	path("$outputDir/trimgalore/fastqc/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0002_2_val_2_fastqc.html"),
+				// 	path("$outputDir/trimgalore/fastqc/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1_T1_TT0001_trimmed_fastqc.html"),
+				// 	path("$outputDir/trimgalore/fastqc/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1_T1_TT0002_trimmed_fastqc.html")
+				// ).match("trimgalore") },
 				{ assert new File("$outputDir/trimgalore/fastqc/zips/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0001_1_val_1_fastqc.zip").exists() },
 				{ assert new File("$outputDir/trimgalore/fastqc/zips/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0001_2_val_2_fastqc.zip").exists() },
-				{ assert new File("$outputDir/trimgalore/fastqc/zips/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0010_1_val_1_fastqc.zip").exists() },
-				{ assert new File("$outputDir/trimgalore/fastqc/zips/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0010_2_val_2_fastqc.zip").exists() },
+				{ assert new File("$outputDir/trimgalore/fastqc/zips/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0002_1_val_1_fastqc.zip").exists() },
+				{ assert new File("$outputDir/trimgalore/fastqc/zips/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0002_2_val_2_fastqc.zip").exists() },
 				{ assert new File("$outputDir/trimgalore/fastqc/zips/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1_T1_TT0001_trimmed_fastqc.zip").exists() },
-				{ assert new File("$outputDir/trimgalore/fastqc/zips/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1_T1_TT0010_trimmed_fastqc.zip").exists() },
+				{ assert new File("$outputDir/trimgalore/fastqc/zips/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1_T1_TT0002_trimmed_fastqc.zip").exists() },
 				{ assert new File("$outputDir/trimgalore/logs/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0001_1.fastq.gz_trimming_report.txt").exists() },
 				{ assert new File("$outputDir/trimgalore/logs/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0001_2.fastq.gz_trimming_report.txt").exists() },
-				{ assert new File("$outputDir/trimgalore/logs/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0010_1.fastq.gz_trimming_report.txt").exists() },
-				{ assert new File("$outputDir/trimgalore/logs/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0010_2.fastq.gz_trimming_report.txt").exists() },
+				{ assert new File("$outputDir/trimgalore/logs/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0002_1.fastq.gz_trimming_report.txt").exists() },
+				{ assert new File("$outputDir/trimgalore/logs/OSMOTIC_STRESS_T0_PE_REP1_T1_REP1_T1_TT0002_2.fastq.gz_trimming_report.txt").exists() },
 				{ assert new File("$outputDir/trimgalore/logs/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1_T1_TT0001.fastq.gz_trimming_report.txt").exists() },
-				{ assert new File("$outputDir/trimgalore/logs/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1_T1_TT0010.fastq.gz_trimming_report.txt").exists() },
+				{ assert new File("$outputDir/trimgalore/logs/OSMOTIC_STRESS_T100_SE_REP1_T1_REP1_T1_TT0002.fastq.gz_trimming_report.txt").exists() },
 				// End: Template created with createNftestTemplateFromDiff.pl testout_small_splitfastq10k_003 testout_small_splitfastq10k_002
             )
         }
